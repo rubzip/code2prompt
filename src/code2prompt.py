@@ -37,7 +37,7 @@ def code2prompt(
                         f.write(content + "\n")
         except Exception as e:
             return
-    elif is_clipboard:
+    elif copy_to_clipboard:
         try:
             import pyperclip
             full_content = "\n".join([
