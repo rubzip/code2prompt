@@ -51,6 +51,21 @@ def _open_file(file_path: str) -> Optional[str]:
         print(f"Error reading {file_path}: {e}")
         return None
 
+def get_lang(path: str) -> str:
+    _, ext = os.path.splitext(path)
+    lang = ext.lstrip(".") # e.g., "py", "js"
+
+    if lang:
+        return lang
+    
+    filename = os.path.basename(path).lower()
+    if "dockerfile" in filename:
+        return "dockerfile"
+    if "makefile" in filename:
+        return "makefile"
+    if "jenkinsfile" in filename:
+        return "groovy"
+    return ""
 
 def load_with_path(path: str, comment_symbol: str = "#", as_markdown: bool = True) -> Optional[str]:
     content = _open_file(path)
