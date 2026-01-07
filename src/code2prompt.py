@@ -16,7 +16,8 @@ def code2prompt(
     exclude_extensions: Optional[List[str]] = None,
     include_extensions: Optional[List[str]] = None,
     comment_symbol: str = "#",
-    output_file: Optional[str] = None
+    output_file: Optional[str] = None,
+    is_clipboard: bool = False
 ):
     root_abs_path = os.path.abspath(path)
 
@@ -36,7 +37,15 @@ def code2prompt(
                         f.write(content + "\n")
         except Exception as e:
             return
-
+    elif is_clipboard:
+        try:
+            import pyperclip
+            full_content = "\n".join([
+                load_with_path(f) for f in files if load_with_path(f)
+            ])
+            pyperclip.copy(full_content)
+        except:
+            return
     else:
         for file in files:
             content = load_with_path(file, comment_symbol)
@@ -59,6 +68,9 @@ def main():
     parser.add_argument(
         "-o", "--output", help="Path to output file (e.g. prompt.txt)"
     )
+    parser.add_argument(
+        "-c", "--copy", action="store_true", help="Copy as a clipboard"
+    )
 
     args = parser.parse_args()
 
@@ -66,7 +78,8 @@ def main():
         args.path, 
         exclude_extensions=args.exclude, 
         include_extensions=args.include,
-        output_file=args.output
+        output_file=args.output,
+        copy_to_clipboard=args.copy
     )
 
 
