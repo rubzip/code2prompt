@@ -72,7 +72,6 @@ def load_with_path(path: str, comment_symbol: str = "#", as_markdown: bool = Tru
     if content is None:
         return None
     if as_markdown:
-        _, ext = os.path.splitext(path)
-        lang = ext.lstrip(".") # e.g., "py", "js"
+        lang = get_lang(path)
         return f"## File: {path}\n```{lang}\n{content}\n```\n"
     return f"{comment_symbol} {path}\n{content}"
