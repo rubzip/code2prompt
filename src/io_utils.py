@@ -52,9 +52,12 @@ def _open_file(file_path: str) -> Optional[str]:
         return None
 
 
-def load_with_path(path: str, comment_symbol: str = "#") -> Optional[str]:
+def load_with_path(path: str, comment_symbol: str = "#", as_markdown: bool = True) -> Optional[str]:
     content = _open_file(path)
     if content is None:
         return None
-
+    if as_markdown:
+        _, ext = os.path.splitext(path)
+        lang = ext.lstrip(".") # e.g., "py", "js"
+        return f"## File: {path}\n```{lang}\n{content}\n```\n"
     return f"{comment_symbol} {path}\n{content}"
