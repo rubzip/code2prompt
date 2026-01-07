@@ -17,7 +17,7 @@ def code2prompt(
     include_extensions: Optional[List[str]] = None,
     comment_symbol: str = "#",
     output_file: Optional[str] = None,
-    is_clipboard: bool = False
+    copy_to_clipboard: bool = False
 ):
     root_abs_path = os.path.abspath(path)
 
